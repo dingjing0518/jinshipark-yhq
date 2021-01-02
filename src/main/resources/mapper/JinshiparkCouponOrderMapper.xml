@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinshipark.yhq.mapper.JinshiparkCouponOrderMapper">
+  <resultMap id="BaseResultMap" type="com.jinshipark.yhq.model.JinshiparkCouponOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="Plate" jdbcType="VARCHAR" property="plate" />
+    <result column="State" jdbcType="VARCHAR" property="state" />
+    <result column="OrderID" jdbcType="VARCHAR" property="orderid" />
+    <result column="ParkTime" jdbcType="VARCHAR" property="parktime" />
+    <result column="InTime" jdbcType="TIMESTAMP" property="intime" />
+    <result column="OutTime" jdbcType="TIMESTAMP" property="outtime" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="AgentID" jdbcType="VARCHAR" property="agentid" />
+    <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
+    <result column="AreaID" jdbcType="VARCHAR" property="areaid" />
+    <result column="CouponID" jdbcType="VARCHAR" property="couponid" />
+    <result column="jco_coupon_generate_id" jdbcType="INTEGER" property="jcoCouponGenerateId" />
+    <result column="ShopID" jdbcType="VARCHAR" property="shopid" />
+    <result column="Type" jdbcType="VARCHAR" property="type" />
+    <result column="ReductionTime" jdbcType="VARCHAR" property="reductiontime" />
+    <result column="ReductionMoney" jdbcType="VARCHAR" property="reductionmoney" />
+    <result column="Sign" jdbcType="VARCHAR" property="sign" />
+    <result column="Num" jdbcType="INTEGER" property="num" />
+    <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, Plate, State, OrderID, ParkTime, InTime, OutTime, CreateTime, AgentID, ParkID, 
+    AreaID, CouponID, jco_coupon_generate_id, ShopID, Type, ReductionTime, ReductionMoney, 
+    Sign, Num, Remarks
+  </sql>
+  <select id="selectByExample" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jinshipark_coupon_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jinshipark_coupon_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jinshipark_coupon_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrderExample">
+    delete from jinshipark_coupon_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jinshipark_coupon_order (Plate, State, OrderID, 
+      ParkTime, InTime, OutTime, 
+      CreateTime, AgentID, ParkID, 
+      AreaID, CouponID, jco_coupon_generate_id, 
+      ShopID, Type, ReductionTime, 
+      ReductionMoney, Sign, Num, 
+      Remarks)
+    values (#{plate,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, 
+      #{parktime,jdbcType=VARCHAR}, #{intime,jdbcType=TIMESTAMP}, #{outtime,jdbcType=TIMESTAMP}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{agentid,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, 
+      #{areaid,jdbcType=VARCHAR}, #{couponid,jdbcType=VARCHAR}, #{jcoCouponGenerateId,jdbcType=INTEGER}, 
+      #{shopid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{reductiontime,jdbcType=VARCHAR}, 
+      #{reductionmoney,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jinshipark_coupon_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="plate != null">
+        Plate,
+      </if>
+      <if test="state != null">
+        State,
+      </if>
+      <if test="orderid != null">
+        OrderID,
+      </if>
+      <if test="parktime != null">
+        ParkTime,
+      </if>
+      <if test="intime != null">
+        InTime,
+      </if>
+      <if test="outtime != null">
+        OutTime,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="agentid != null">
+        AgentID,
+      </if>
+      <if test="parkid != null">
+        ParkID,
+      </if>
+      <if test="areaid != null">
+        AreaID,
+      </if>
+      <if test="couponid != null">
+        CouponID,
+      </if>
+      <if test="jcoCouponGenerateId != null">
+        jco_coupon_generate_id,
+      </if>
+      <if test="shopid != null">
+        ShopID,
+      </if>
+      <if test="type != null">
+        Type,
+      </if>
+      <if test="reductiontime != null">
+        ReductionTime,
+      </if>
+      <if test="reductionmoney != null">
+        ReductionMoney,
+      </if>
+      <if test="sign != null">
+        Sign,
+      </if>
+      <if test="num != null">
+        Num,
+      </if>
+      <if test="remarks != null">
+        Remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="plate != null">
+        #{plate,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="parktime != null">
+        #{parktime,jdbcType=VARCHAR},
+      </if>
+      <if test="intime != null">
+        #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentid != null">
+        #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null">
+        #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="couponid != null">
+        #{couponid,jdbcType=VARCHAR},
+      </if>
+      <if test="jcoCouponGenerateId != null">
+        #{jcoCouponGenerateId,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="reductiontime != null">
+        #{reductiontime,jdbcType=VARCHAR},
+      </if>
+      <if test="reductionmoney != null">
+        #{reductionmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrderExample" resultType="java.lang.Long">
+    select count(*) from jinshipark_coupon_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jinshipark_coupon_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.plate != null">
+        Plate = #{record.plate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        State = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderid != null">
+        OrderID = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parktime != null">
+        ParkTime = #{record.parktime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intime != null">
+        InTime = #{record.intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outtime != null">
+        OutTime = #{record.outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.agentid != null">
+        AgentID = #{record.agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkid != null">
+        ParkID = #{record.parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaid != null">
+        AreaID = #{record.areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponid != null">
+        CouponID = #{record.couponid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jcoCouponGenerateId != null">
+        jco_coupon_generate_id = #{record.jcoCouponGenerateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null">
+        ShopID = #{record.shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        Type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reductiontime != null">
+        ReductionTime = #{record.reductiontime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reductionmoney != null">
+        ReductionMoney = #{record.reductionmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sign != null">
+        Sign = #{record.sign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null">
+        Num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null">
+        Remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jinshipark_coupon_order
+    set id = #{record.id,jdbcType=INTEGER},
+      Plate = #{record.plate,jdbcType=VARCHAR},
+      State = #{record.state,jdbcType=VARCHAR},
+      OrderID = #{record.orderid,jdbcType=VARCHAR},
+      ParkTime = #{record.parktime,jdbcType=VARCHAR},
+      InTime = #{record.intime,jdbcType=TIMESTAMP},
+      OutTime = #{record.outtime,jdbcType=TIMESTAMP},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      AgentID = #{record.agentid,jdbcType=VARCHAR},
+      ParkID = #{record.parkid,jdbcType=VARCHAR},
+      AreaID = #{record.areaid,jdbcType=VARCHAR},
+      CouponID = #{record.couponid,jdbcType=VARCHAR},
+      jco_coupon_generate_id = #{record.jcoCouponGenerateId,jdbcType=INTEGER},
+      ShopID = #{record.shopid,jdbcType=VARCHAR},
+      Type = #{record.type,jdbcType=VARCHAR},
+      ReductionTime = #{record.reductiontime,jdbcType=VARCHAR},
+      ReductionMoney = #{record.reductionmoney,jdbcType=VARCHAR},
+      Sign = #{record.sign,jdbcType=VARCHAR},
+      Num = #{record.num,jdbcType=INTEGER},
+      Remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrder">
+    update jinshipark_coupon_order
+    <set>
+      <if test="plate != null">
+        Plate = #{plate,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        State = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        OrderID = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="parktime != null">
+        ParkTime = #{parktime,jdbcType=VARCHAR},
+      </if>
+      <if test="intime != null">
+        InTime = #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        OutTime = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentid != null">
+        AgentID = #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null">
+        ParkID = #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null">
+        AreaID = #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="couponid != null">
+        CouponID = #{couponid,jdbcType=VARCHAR},
+      </if>
+      <if test="jcoCouponGenerateId != null">
+        jco_coupon_generate_id = #{jcoCouponGenerateId,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null">
+        ShopID = #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        Type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="reductiontime != null">
+        ReductionTime = #{reductiontime,jdbcType=VARCHAR},
+      </if>
+      <if test="reductionmoney != null">
+        ReductionMoney = #{reductionmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        Sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        Num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        Remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrder">
+    update jinshipark_coupon_order
+    set Plate = #{plate,jdbcType=VARCHAR},
+      State = #{state,jdbcType=VARCHAR},
+      OrderID = #{orderid,jdbcType=VARCHAR},
+      ParkTime = #{parktime,jdbcType=VARCHAR},
+      InTime = #{intime,jdbcType=TIMESTAMP},
+      OutTime = #{outtime,jdbcType=TIMESTAMP},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      AgentID = #{agentid,jdbcType=VARCHAR},
+      ParkID = #{parkid,jdbcType=VARCHAR},
+      AreaID = #{areaid,jdbcType=VARCHAR},
+      CouponID = #{couponid,jdbcType=VARCHAR},
+      jco_coupon_generate_id = #{jcoCouponGenerateId,jdbcType=INTEGER},
+      ShopID = #{shopid,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=VARCHAR},
+      ReductionTime = #{reductiontime,jdbcType=VARCHAR},
+      ReductionMoney = #{reductionmoney,jdbcType=VARCHAR},
+      Sign = #{sign,jdbcType=VARCHAR},
+      Num = #{num,jdbcType=INTEGER},
+      Remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

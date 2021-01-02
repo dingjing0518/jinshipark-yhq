@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinshipark.yhq.mapper.JinshiparkShopcouponMapper">
+  <resultMap id="BaseResultMap" type="com.jinshipark.yhq.model.JinshiparkShopcoupon">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="CouponName" jdbcType="VARCHAR" property="couponname" />
+    <result column="CouponType" jdbcType="VARCHAR" property="coupontype" />
+    <result column="Count" jdbcType="INTEGER" property="count" />
+    <result column="RemainCount" jdbcType="INTEGER" property="remaincount" />
+    <result column="ShopID" jdbcType="VARCHAR" property="shopid" />
+    <result column="AgentID" jdbcType="VARCHAR" property="agentid" />
+    <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
+    <result column="AreaID" jdbcType="VARCHAR" property="areaid" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, CouponName, CouponType, Count, RemainCount, ShopID, AgentID, ParkID, AreaID, 
+    StartTime, EndTime, CreateTime, Remarks
+  </sql>
+  <select id="selectByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopcouponExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jinshipark_shopcoupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jinshipark_shopcoupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jinshipark_shopcoupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopcouponExample">
+    delete from jinshipark_shopcoupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jinshipark.yhq.model.JinshiparkShopcoupon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jinshipark_shopcoupon (CouponName, CouponType, Count, 
+      RemainCount, ShopID, AgentID, 
+      ParkID, AreaID, StartTime, 
+      EndTime, CreateTime, Remarks
+      )
+    values (#{couponname,jdbcType=VARCHAR}, #{coupontype,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{remaincount,jdbcType=INTEGER}, #{shopid,jdbcType=VARCHAR}, #{agentid,jdbcType=VARCHAR}, 
+      #{parkid,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinshipark.yhq.model.JinshiparkShopcoupon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jinshipark_shopcoupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="couponname != null">
+        CouponName,
+      </if>
+      <if test="coupontype != null">
+        CouponType,
+      </if>
+      <if test="count != null">
+        Count,
+      </if>
+      <if test="remaincount != null">
+        RemainCount,
+      </if>
+      <if test="shopid != null">
+        ShopID,
+      </if>
+      <if test="agentid != null">
+        AgentID,
+      </if>
+      <if test="parkid != null">
+        ParkID,
+      </if>
+      <if test="areaid != null">
+        AreaID,
+      </if>
+      <if test="starttime != null">
+        StartTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="remarks != null">
+        Remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="couponname != null">
+        #{couponname,jdbcType=VARCHAR},
+      </if>
+      <if test="coupontype != null">
+        #{coupontype,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="remaincount != null">
+        #{remaincount,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null">
+        #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null">
+        #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopcouponExample" resultType="java.lang.Long">
+    select count(*) from jinshipark_shopcoupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jinshipark_shopcoupon
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponname != null">
+        CouponName = #{record.couponname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coupontype != null">
+        CouponType = #{record.coupontype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null">
+        Count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.remaincount != null">
+        RemainCount = #{record.remaincount,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null">
+        ShopID = #{record.shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentid != null">
+        AgentID = #{record.agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkid != null">
+        ParkID = #{record.parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaid != null">
+        AreaID = #{record.areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null">
+        StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null">
+        EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        Remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jinshipark_shopcoupon
+    set id = #{record.id,jdbcType=INTEGER},
+      CouponName = #{record.couponname,jdbcType=VARCHAR},
+      CouponType = #{record.coupontype,jdbcType=VARCHAR},
+      Count = #{record.count,jdbcType=INTEGER},
+      RemainCount = #{record.remaincount,jdbcType=INTEGER},
+      ShopID = #{record.shopid,jdbcType=VARCHAR},
+      AgentID = #{record.agentid,jdbcType=VARCHAR},
+      ParkID = #{record.parkid,jdbcType=VARCHAR},
+      AreaID = #{record.areaid,jdbcType=VARCHAR},
+      StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+      EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      Remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinshipark.yhq.model.JinshiparkShopcoupon">
+    update jinshipark_shopcoupon
+    <set>
+      <if test="couponname != null">
+        CouponName = #{couponname,jdbcType=VARCHAR},
+      </if>
+      <if test="coupontype != null">
+        CouponType = #{coupontype,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        Count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="remaincount != null">
+        RemainCount = #{remaincount,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null">
+        ShopID = #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null">
+        AgentID = #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null">
+        ParkID = #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null">
+        AreaID = #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        StartTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        Remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinshipark.yhq.model.JinshiparkShopcoupon">
+    update jinshipark_shopcoupon
+    set CouponName = #{couponname,jdbcType=VARCHAR},
+      CouponType = #{coupontype,jdbcType=VARCHAR},
+      Count = #{count,jdbcType=INTEGER},
+      RemainCount = #{remaincount,jdbcType=INTEGER},
+      ShopID = #{shopid,jdbcType=VARCHAR},
+      AgentID = #{agentid,jdbcType=VARCHAR},
+      ParkID = #{parkid,jdbcType=VARCHAR},
+      AreaID = #{areaid,jdbcType=VARCHAR},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      Remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

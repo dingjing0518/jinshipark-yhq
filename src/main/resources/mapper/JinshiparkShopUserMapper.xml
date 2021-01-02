@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinshipark.yhq.mapper.JinshiparkShopUserMapper">
+  <resultMap id="BaseResultMap" type="com.jinshipark.yhq.model.JinshiparkShopUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="LoginName" jdbcType="VARCHAR" property="loginname" />
+    <result column="Password" jdbcType="VARCHAR" property="password" />
+    <result column="Phone" jdbcType="VARCHAR" property="phone" />
+    <result column="Role" jdbcType="VARCHAR" property="role" />
+    <result column="ShopID" jdbcType="VARCHAR" property="shopid" />
+    <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
+    <result column="AgentID" jdbcType="VARCHAR" property="agentid" />
+    <result column="AreaID" jdbcType="VARCHAR" property="areaid" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, LoginName, Password, Phone, Role, ShopID, ParkID, AgentID, AreaID, CreateTime, 
+    Remarks
+  </sql>
+  <select id="selectByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jinshipark_shop_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jinshipark_shop_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jinshipark_shop_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopUserExample">
+    delete from jinshipark_shop_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jinshipark.yhq.model.JinshiparkShopUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jinshipark_shop_user (LoginName, Password, Phone, 
+      Role, ShopID, ParkID, 
+      AgentID, AreaID, CreateTime, 
+      Remarks)
+    values (#{loginname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{role,jdbcType=VARCHAR}, #{shopid,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, 
+      #{agentid,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinshipark.yhq.model.JinshiparkShopUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jinshipark_shop_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginname != null">
+        LoginName,
+      </if>
+      <if test="password != null">
+        Password,
+      </if>
+      <if test="phone != null">
+        Phone,
+      </if>
+      <if test="role != null">
+        Role,
+      </if>
+      <if test="shopid != null">
+        ShopID,
+      </if>
+      <if test="parkid != null">
+        ParkID,
+      </if>
+      <if test="agentid != null">
+        AgentID,
+      </if>
+      <if test="areaid != null">
+        AreaID,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="remarks != null">
+        Remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loginname != null">
+        #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null">
+        #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null">
+        #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopUserExample" resultType="java.lang.Long">
+    select count(*) from jinshipark_shop_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update jinshipark_shop_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginname != null">
+        LoginName = #{record.loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        Password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        Phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.role != null">
+        Role = #{record.role,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopid != null">
+        ShopID = #{record.shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkid != null">
+        ParkID = #{record.parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentid != null">
+        AgentID = #{record.agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaid != null">
+        AreaID = #{record.areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        Remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update jinshipark_shop_user
+    set id = #{record.id,jdbcType=INTEGER},
+      LoginName = #{record.loginname,jdbcType=VARCHAR},
+      Password = #{record.password,jdbcType=VARCHAR},
+      Phone = #{record.phone,jdbcType=VARCHAR},
+      Role = #{record.role,jdbcType=VARCHAR},
+      ShopID = #{record.shopid,jdbcType=VARCHAR},
+      ParkID = #{record.parkid,jdbcType=VARCHAR},
+      AgentID = #{record.agentid,jdbcType=VARCHAR},
+      AreaID = #{record.areaid,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      Remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinshipark.yhq.model.JinshiparkShopUser">
+    update jinshipark_shop_user
+    <set>
+      <if test="loginname != null">
+        LoginName = #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        Phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        Role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="shopid != null">
+        ShopID = #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="parkid != null">
+        ParkID = #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null">
+        AgentID = #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null">
+        AreaID = #{areaid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        Remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinshipark.yhq.model.JinshiparkShopUser">
+    update jinshipark_shop_user
+    set LoginName = #{loginname,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=VARCHAR},
+      Role = #{role,jdbcType=VARCHAR},
+      ShopID = #{shopid,jdbcType=VARCHAR},
+      ParkID = #{parkid,jdbcType=VARCHAR},
+      AgentID = #{agentid,jdbcType=VARCHAR},
+      AreaID = #{areaid,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      Remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
