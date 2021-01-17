@@ -9,4 +9,6 @@ public interface JinshiparkCouponOrderService {
     PagedGridResult searchCouponOrder(SearchVO searchVO) throws ParseException;
 
     String insertCouponOrder(Integer id, String plate, Integer type) throws Exception;
+
+    String insertCouponOrderToD(Integer id, String plate, Integer type) throws Exception;
 }

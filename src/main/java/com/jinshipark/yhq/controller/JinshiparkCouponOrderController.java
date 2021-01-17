@@ -1,6 +1,5 @@
 package com.jinshipark.yhq.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jinshipark.yhq.model.bo.SearchVO;
 import com.jinshipark.yhq.sevice.JinshiparkCouponOrderService;
 import com.jinshipark.yhq.utils.JinshiparkJSONResult;
@@ -8,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 优惠券订单控制类
@@ -31,10 +26,37 @@ public class JinshiparkCouponOrderController {
         return JinshiparkJSONResult.ok(jinshiparkCouponOrderService.searchCouponOrder(searchVO));
     }
 
+    /**
+     * 静态优惠券使用接口
+     *
+     * @param id    优惠券id
+     * @param plate 车牌号
+     * @param type  优惠券类型
+     * @return 处理结果
+     * @throws Exception 异常
+     */
     @RequestMapping(value = "/insertCouponOrder", method = RequestMethod.GET)
     @ResponseBody
     @CrossOrigin
     public String insertCouponOrder(@RequestParam("id") Integer id,
+                                    @RequestParam("plate") String plate,
+                                    @RequestParam("type") Integer type) throws Exception {
+        return jinshiparkCouponOrderService.insertCouponOrder(id, plate, type);
+    }
+
+    /**
+     * 动态优惠券使用接口
+     *
+     * @param id    优惠券id
+     * @param plate 车牌号
+     * @param type  优惠券类型
+     * @return 处理结果
+     * @throws Exception 异常
+     */
+    @RequestMapping(value = "/insertCouponOrderToD", method = RequestMethod.GET)
+    @ResponseBody
+    @CrossOrigin
+    public String insertCouponOrderToD(@RequestParam("id") Integer id,
                                     @RequestParam("plate") String plate,
                                     @RequestParam("type") Integer type) throws Exception {
         return jinshiparkCouponOrderService.insertCouponOrder(id, plate, type);
