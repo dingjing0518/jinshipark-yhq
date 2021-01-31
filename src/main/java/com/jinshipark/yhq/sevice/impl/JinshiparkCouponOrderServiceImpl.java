@@ -38,9 +38,6 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
     @Autowired
     private LincensePlateMapper lincensePlateMapper;
 
-    @Autowired
-    private JinshiAreaMapper jinshiAreaMapper;
-
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -107,8 +104,6 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             return jsonObject.toJSONString();
         }
 
-        JinshiArea jinshiArea = jinshiAreaMapper.selectByPrimaryKey(Integer.valueOf(areaid));
-
         LincensePlateExample lincensePlateExample = new LincensePlateExample();
         LincensePlateExample.Criteria criteriasLp = lincensePlateExample.createCriteria();
         criteriasLp.andLpLincensePlateIdCarEqualTo(plate);
@@ -122,7 +117,7 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             return jsonObject.toJSONString();
         }
         if (!lincensePlates.get(0).getLpParkingName().equals(parkid)
-                || !lincensePlates.get(0).getLpCarType().equals(jinshiArea.getAreaName())) {
+                || !lincensePlates.get(0).getLpCarType().equals(jinshiparkCoupon.getAreaname())) {
             jsonObject.put("msg", "本优惠券不在该停车区域使用范围");
             return jsonObject.toJSONString();
         }
@@ -171,6 +166,7 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         jinshiparkCouponOrder.setIntime(lincensePlates.get(0).getLpInboundTime());
         jinshiparkCouponOrder.setOrderid(TestUtil.getOrderIdByUUId(plate, Integer.valueOf(parkid)));
         jinshiparkCouponOrder.setAreaid(areaid);
+        jinshiparkCouponOrder.setAreaname(jinshiparkCoupon.getAreaname());
         int result = jinshiparkCouponOrderMapper.insertSelective(jinshiparkCouponOrder);
         if (result > 0) {
             jsonObject.put("msg", "使用优惠券成功");
@@ -217,7 +213,6 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             return jsonObject.toJSONString();
         }
 
-        JinshiArea jinshiArea = jinshiAreaMapper.selectByPrimaryKey(Integer.valueOf(areaid));
 
         LincensePlateExample lincensePlateExample = new LincensePlateExample();
         LincensePlateExample.Criteria criteriasLp = lincensePlateExample.createCriteria();
@@ -232,7 +227,7 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             return jsonObject.toJSONString();
         }
         if (!lincensePlates.get(0).getLpParkingName().equals(parkid)
-                || !lincensePlates.get(0).getLpCarType().equals(jinshiArea.getAreaName())) {
+                || !lincensePlates.get(0).getLpCarType().equals(jinshiparkCoupon.getAreaname())) {
             jsonObject.put("msg", "本优惠券不在改停车区域使用范围");
             return jsonObject.toJSONString();
         }
@@ -281,6 +276,7 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         jinshiparkCouponOrder.setIntime(lincensePlates.get(0).getLpInboundTime());
         jinshiparkCouponOrder.setOrderid(TestUtil.getOrderIdByUUId(plate, Integer.valueOf(parkid)));
         jinshiparkCouponOrder.setAreaid(areaid);
+        jinshiparkCouponOrder.setAreaname(jinshiparkCoupon.getAreaname());
         int result = jinshiparkCouponOrderMapper.insertSelective(jinshiparkCouponOrder);
         if (result > 0) {
             jsonObject.put("msg", "使用优惠券成功");

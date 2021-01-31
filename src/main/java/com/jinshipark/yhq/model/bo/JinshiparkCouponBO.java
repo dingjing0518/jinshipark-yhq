@@ -40,6 +40,8 @@ public class JinshiparkCouponBO {
 
     private Integer reductionmoney;
 
+    private String areaname;
+
     public String getShopid() {
         return shopid;
     }
@@ -164,5 +166,13 @@ public class JinshiparkCouponBO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAreaname() {
+        return areaname;
+    }
+
+    public void setAreaname(String areaname) {
+        this.areaname = areaname;
     }
 }

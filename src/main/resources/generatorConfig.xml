@@ -33,17 +33,17 @@
         <!--指定生成model的路径-->
         <javaModelGenerator targetPackage="com.jinshipark.yhq.model" targetProject="D:\GitRepository\jinshipark-yhq\src\main\java"/>
         <!--指定生成mapper.xml的路径-->
-        <sqlMapGenerator targetPackage="mapper2" targetProject="D:\GitRepository\jinshipark-yhq\src\main\resources"/>
+        <sqlMapGenerator targetPackage="mapper" targetProject="D:\GitRepository\jinshipark-yhq\src\main\resources"/>
         <!--指定生成mapper接口的的路径-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.jinshipark.yhq.mapper2"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.jinshipark.yhq.mapper"
                              targetProject="D:\GitRepository\jinshipark-yhq\src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="lincense_plate">
-            <generatedKey column="lp_id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="jinshi_area">
+        <table tableName="jinshipark_coupon_order">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+<!--        <table tableName="jinshi_area">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="jinshipark_coupon_order">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->

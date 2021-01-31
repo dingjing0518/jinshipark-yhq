@@ -34,6 +34,9 @@ public class JinshiparkCouponOrder implements Serializable {
     @ApiModelProperty(value = "车场id")
     private String parkid;
 
+    @ApiModelProperty(value = "区域名称")
+    private String areaname;
+
     @ApiModelProperty(value = "区域id")
     private String areaid;
 
@@ -146,6 +149,14 @@ public class JinshiparkCouponOrder implements Serializable {
         this.parkid = parkid;
     }
 
+    public String getAreaname() {
+        return areaname;
+    }
+
+    public void setAreaname(String areaname) {
+        this.areaname = areaname;
+    }
+
     public String getAreaid() {
         return areaid;
     }
@@ -242,6 +253,7 @@ public class JinshiparkCouponOrder implements Serializable {
         sb.append(", createtime=").append(createtime);
         sb.append(", agentid=").append(agentid);
         sb.append(", parkid=").append(parkid);
+        sb.append(", areaname=").append(areaname);
         sb.append(", areaid=").append(areaid);
         sb.append(", couponid=").append(couponid);
         sb.append(", jcoCouponGenerateId=").append(jcoCouponGenerateId);

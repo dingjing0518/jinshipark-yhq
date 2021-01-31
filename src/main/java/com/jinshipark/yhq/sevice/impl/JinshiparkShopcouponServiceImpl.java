@@ -60,6 +60,7 @@ public class JinshiparkShopcouponServiceImpl implements JinshiparkShopcouponServ
             String areaId = jinshiparkShopcoupon.getAreaid();
             jinshiparkShopcouponVo.setAreaid(areaId);
             jinshiparkShopcouponVo.setShopid(shopId);
+            jinshiparkShopcouponVo.setAreaname(jinshiparkShopcoupon.getAreaname());
             list.add(jinshiparkShopcouponVo);
         }
         return JinshiparkJSONResult.ok(list);

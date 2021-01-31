@@ -10,6 +10,7 @@
     <result column="ShopID" jdbcType="VARCHAR" property="shopid" />
     <result column="AgentID" jdbcType="VARCHAR" property="agentid" />
     <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
+    <result column="AreaName" jdbcType="VARCHAR" property="areaname" />
     <result column="AreaID" jdbcType="VARCHAR" property="areaid" />
     <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
     <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, CouponName, CouponType, Count, RemainCount, ShopID, AgentID, ParkID, AreaID, 
-    StartTime, EndTime, CreateTime, Remarks
+    id, CouponName, CouponType, Count, RemainCount, ShopID, AgentID, ParkID, AreaName, 
+    AreaID, StartTime, EndTime, CreateTime, Remarks
   </sql>
   <select id="selectByExample" parameterType="com.jinshipark.yhq.model.JinshiparkShopcouponExample" resultMap="BaseResultMap">
     select
@@ -114,14 +115,14 @@
     </selectKey>
     insert into jinshipark_shopcoupon (CouponName, CouponType, Count, 
       RemainCount, ShopID, AgentID, 
-      ParkID, AreaID, StartTime, 
-      EndTime, CreateTime, Remarks
-      )
+      ParkID, AreaName, AreaID, 
+      StartTime, EndTime, CreateTime, 
+      Remarks)
     values (#{couponname,jdbcType=VARCHAR}, #{coupontype,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
       #{remaincount,jdbcType=INTEGER}, #{shopid,jdbcType=VARCHAR}, #{agentid,jdbcType=VARCHAR}, 
-      #{parkid,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
-      )
+      #{parkid,jdbcType=VARCHAR}, #{areaname,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinshipark.yhq.model.JinshiparkShopcoupon">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -149,6 +150,9 @@
       </if>
       <if test="parkid != null">
         ParkID,
+      </if>
+      <if test="areaname != null">
+        AreaName,
       </if>
       <if test="areaid != null">
         AreaID,
@@ -187,6 +191,9 @@
       </if>
       <if test="parkid != null">
         #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null">
+        #{areaname,jdbcType=VARCHAR},
       </if>
       <if test="areaid != null">
         #{areaid,jdbcType=VARCHAR},
@@ -238,6 +245,9 @@
       <if test="record.parkid != null">
         ParkID = #{record.parkid,jdbcType=VARCHAR},
       </if>
+      <if test="record.areaname != null">
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
       <if test="record.areaid != null">
         AreaID = #{record.areaid,jdbcType=VARCHAR},
       </if>
@@ -268,6 +278,7 @@
       ShopID = #{record.shopid,jdbcType=VARCHAR},
       AgentID = #{record.agentid,jdbcType=VARCHAR},
       ParkID = #{record.parkid,jdbcType=VARCHAR},
+      AreaName = #{record.areaname,jdbcType=VARCHAR},
       AreaID = #{record.areaid,jdbcType=VARCHAR},
       StartTime = #{record.starttime,jdbcType=TIMESTAMP},
       EndTime = #{record.endtime,jdbcType=TIMESTAMP},
@@ -301,6 +312,9 @@
       <if test="parkid != null">
         ParkID = #{parkid,jdbcType=VARCHAR},
       </if>
+      <if test="areaname != null">
+        AreaName = #{areaname,jdbcType=VARCHAR},
+      </if>
       <if test="areaid != null">
         AreaID = #{areaid,jdbcType=VARCHAR},
       </if>
@@ -328,6 +342,7 @@
       ShopID = #{shopid,jdbcType=VARCHAR},
       AgentID = #{agentid,jdbcType=VARCHAR},
       ParkID = #{parkid,jdbcType=VARCHAR},
+      AreaName = #{areaname,jdbcType=VARCHAR},
       AreaID = #{areaid,jdbcType=VARCHAR},
       StartTime = #{starttime,jdbcType=TIMESTAMP},
       EndTime = #{endtime,jdbcType=TIMESTAMP},

@@ -765,6 +765,76 @@ public class JinshiparkCouponOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andAreanameIsNull() {
+            addCriterion("AreaName is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameIsNotNull() {
+            addCriterion("AreaName is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameEqualTo(String value) {
+            addCriterion("AreaName =", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameNotEqualTo(String value) {
+            addCriterion("AreaName <>", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameGreaterThan(String value) {
+            addCriterion("AreaName >", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameGreaterThanOrEqualTo(String value) {
+            addCriterion("AreaName >=", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameLessThan(String value) {
+            addCriterion("AreaName <", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameLessThanOrEqualTo(String value) {
+            addCriterion("AreaName <=", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameLike(String value) {
+            addCriterion("AreaName like", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameNotLike(String value) {
+            addCriterion("AreaName not like", value, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameIn(List<String> values) {
+            addCriterion("AreaName in", values, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameNotIn(List<String> values) {
+            addCriterion("AreaName not in", values, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameBetween(String value1, String value2) {
+            addCriterion("AreaName between", value1, value2, "areaname");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreanameNotBetween(String value1, String value2) {
+            addCriterion("AreaName not between", value1, value2, "areaname");
+            return (Criteria) this;
+        }
+
         public Criteria andAreaidIsNull() {
             addCriterion("AreaID is null");
             return (Criteria) this;

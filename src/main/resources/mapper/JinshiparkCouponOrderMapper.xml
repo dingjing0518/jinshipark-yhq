@@ -12,6 +12,7 @@
     <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="AgentID" jdbcType="VARCHAR" property="agentid" />
     <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
+    <result column="AreaName" jdbcType="VARCHAR" property="areaname" />
     <result column="AreaID" jdbcType="VARCHAR" property="areaid" />
     <result column="CouponID" jdbcType="VARCHAR" property="couponid" />
     <result column="jco_coupon_generate_id" jdbcType="INTEGER" property="jcoCouponGenerateId" />
@@ -83,8 +84,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, Plate, State, OrderID, ParkTime, InTime, OutTime, CreateTime, AgentID, ParkID, 
-    AreaID, CouponID, jco_coupon_generate_id, ShopID, Type, ReductionTime, ReductionMoney, 
-    Sign, Num, Remarks
+    AreaName, AreaID, CouponID, jco_coupon_generate_id, ShopID, Type, ReductionTime, 
+    ReductionMoney, Sign, Num, Remarks
   </sql>
   <select id="selectByExample" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrderExample" resultMap="BaseResultMap">
     select
@@ -123,17 +124,17 @@
     insert into jinshipark_coupon_order (Plate, State, OrderID, 
       ParkTime, InTime, OutTime, 
       CreateTime, AgentID, ParkID, 
-      AreaID, CouponID, jco_coupon_generate_id, 
-      ShopID, Type, ReductionTime, 
-      ReductionMoney, Sign, Num, 
-      Remarks)
+      AreaName, AreaID, CouponID, 
+      jco_coupon_generate_id, ShopID, Type, 
+      ReductionTime, ReductionMoney, Sign, 
+      Num, Remarks)
     values (#{plate,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, 
       #{parktime,jdbcType=VARCHAR}, #{intime,jdbcType=TIMESTAMP}, #{outtime,jdbcType=TIMESTAMP}, 
       #{createtime,jdbcType=TIMESTAMP}, #{agentid,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, 
-      #{areaid,jdbcType=VARCHAR}, #{couponid,jdbcType=VARCHAR}, #{jcoCouponGenerateId,jdbcType=INTEGER}, 
-      #{shopid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{reductiontime,jdbcType=VARCHAR}, 
-      #{reductionmoney,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
-      #{remarks,jdbcType=VARCHAR})
+      #{areaname,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{couponid,jdbcType=VARCHAR}, 
+      #{jcoCouponGenerateId,jdbcType=INTEGER}, #{shopid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{reductiontime,jdbcType=VARCHAR}, #{reductionmoney,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinshipark.yhq.model.JinshiparkCouponOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -167,6 +168,9 @@
       </if>
       <if test="parkid != null">
         ParkID,
+      </if>
+      <if test="areaname != null">
+        AreaName,
       </if>
       <if test="areaid != null">
         AreaID,
@@ -226,6 +230,9 @@
       </if>
       <if test="parkid != null">
         #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null">
+        #{areaname,jdbcType=VARCHAR},
       </if>
       <if test="areaid != null">
         #{areaid,jdbcType=VARCHAR},
@@ -298,6 +305,9 @@
       <if test="record.parkid != null">
         ParkID = #{record.parkid,jdbcType=VARCHAR},
       </if>
+      <if test="record.areaname != null">
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
       <if test="record.areaid != null">
         AreaID = #{record.areaid,jdbcType=VARCHAR},
       </if>
@@ -345,6 +355,7 @@
       CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
       AgentID = #{record.agentid,jdbcType=VARCHAR},
       ParkID = #{record.parkid,jdbcType=VARCHAR},
+      AreaName = #{record.areaname,jdbcType=VARCHAR},
       AreaID = #{record.areaid,jdbcType=VARCHAR},
       CouponID = #{record.couponid,jdbcType=VARCHAR},
       jco_coupon_generate_id = #{record.jcoCouponGenerateId,jdbcType=INTEGER},
@@ -388,6 +399,9 @@
       </if>
       <if test="parkid != null">
         ParkID = #{parkid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null">
+        AreaName = #{areaname,jdbcType=VARCHAR},
       </if>
       <if test="areaid != null">
         AreaID = #{areaid,jdbcType=VARCHAR},
@@ -433,6 +447,7 @@
       CreateTime = #{createtime,jdbcType=TIMESTAMP},
       AgentID = #{agentid,jdbcType=VARCHAR},
       ParkID = #{parkid,jdbcType=VARCHAR},
+      AreaName = #{areaname,jdbcType=VARCHAR},
       AreaID = #{areaid,jdbcType=VARCHAR},
       CouponID = #{couponid,jdbcType=VARCHAR},
       jco_coupon_generate_id = #{jcoCouponGenerateId,jdbcType=INTEGER},

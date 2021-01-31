@@ -25,6 +25,8 @@ public class JinshiparkShopcouponVO {
 
     private String areaid;
 
+    private String areaname;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date starttime;
@@ -151,5 +153,13 @@ public class JinshiparkShopcouponVO {
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
+    }
+
+    public String getAreaname() {
+        return areaname;
+    }
+
+    public void setAreaname(String areaname) {
+        this.areaname = areaname;
     }
 }

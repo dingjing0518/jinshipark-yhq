@@ -16,6 +16,7 @@
     <result column="ReductionMoney" jdbcType="INTEGER" property="reductionmoney" />
     <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="ShopID" jdbcType="VARCHAR" property="shopid" />
+    <result column="AreaName" jdbcType="VARCHAR" property="areaname" />
     <result column="AreaID" jdbcType="VARCHAR" property="areaid" />
     <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
     <result column="AgentID" jdbcType="VARCHAR" property="agentid" />
@@ -81,7 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, CouponID, Name, Type, Count, RemainCount, StartDate, EndDate, StartTime, EndTime, 
-    ReductionTime, ReductionMoney, CreateTime, ShopID, AreaID, ParkID, AgentID, Remarks
+    ReductionTime, ReductionMoney, CreateTime, ShopID, AreaName, AreaID, ParkID, AgentID, 
+    Remarks
   </sql>
   <select id="selectByExample" parameterType="com.jinshipark.yhq.model.JinshiparkCouponExample" resultMap="BaseResultMap">
     select
@@ -126,14 +128,16 @@
       Count, RemainCount, StartDate, 
       EndDate, StartTime, EndTime, 
       ReductionTime, ReductionMoney, CreateTime, 
-      ShopID, AreaID, ParkID, 
-      AgentID, Remarks)
+      ShopID, AreaName, AreaID, 
+      ParkID, AgentID, Remarks
+      )
     values (#{couponid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{count,jdbcType=INTEGER}, #{remaincount,jdbcType=VARCHAR}, #{startdate,jdbcType=TIMESTAMP}, 
       #{enddate,jdbcType=TIMESTAMP}, #{starttime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, 
       #{reductiontime,jdbcType=INTEGER}, #{reductionmoney,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{shopid,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, 
-      #{agentid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+      #{shopid,jdbcType=VARCHAR}, #{areaname,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, 
+      #{parkid,jdbcType=VARCHAR}, #{agentid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jinshipark.yhq.model.JinshiparkCoupon">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -179,6 +183,9 @@
       </if>
       <if test="shopid != null">
         ShopID,
+      </if>
+      <if test="areaname != null">
+        AreaName,
       </if>
       <if test="areaid != null">
         AreaID,
@@ -232,6 +239,9 @@
       </if>
       <if test="shopid != null">
         #{shopid,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null">
+        #{areaname,jdbcType=VARCHAR},
       </if>
       <if test="areaid != null">
         #{areaid,jdbcType=VARCHAR},
@@ -298,6 +308,9 @@
       <if test="record.shopid != null">
         ShopID = #{record.shopid,jdbcType=VARCHAR},
       </if>
+      <if test="record.areaname != null">
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
       <if test="record.areaid != null">
         AreaID = #{record.areaid,jdbcType=VARCHAR},
       </if>
@@ -331,6 +344,7 @@
       ReductionMoney = #{record.reductionmoney,jdbcType=INTEGER},
       CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
       ShopID = #{record.shopid,jdbcType=VARCHAR},
+      AreaName = #{record.areaname,jdbcType=VARCHAR},
       AreaID = #{record.areaid,jdbcType=VARCHAR},
       ParkID = #{record.parkid,jdbcType=VARCHAR},
       AgentID = #{record.agentid,jdbcType=VARCHAR},
@@ -381,6 +395,9 @@
       <if test="shopid != null">
         ShopID = #{shopid,jdbcType=VARCHAR},
       </if>
+      <if test="areaname != null">
+        AreaName = #{areaname,jdbcType=VARCHAR},
+      </if>
       <if test="areaid != null">
         AreaID = #{areaid,jdbcType=VARCHAR},
       </if>
@@ -411,6 +428,7 @@
       ReductionMoney = #{reductionmoney,jdbcType=INTEGER},
       CreateTime = #{createtime,jdbcType=TIMESTAMP},
       ShopID = #{shopid,jdbcType=VARCHAR},
+      AreaName = #{areaname,jdbcType=VARCHAR},
       AreaID = #{areaid,jdbcType=VARCHAR},
       ParkID = #{parkid,jdbcType=VARCHAR},
       AgentID = #{agentid,jdbcType=VARCHAR},
