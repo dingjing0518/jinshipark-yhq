@@ -161,10 +161,8 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         jinshiparkCouponOrder.setType(String.valueOf(jinshiparkCoupon.getType()));
         jinshiparkCouponOrder.setReductionmoney(String.valueOf(jinshiparkCoupon.getReductionmoney()));
         jinshiparkCouponOrder.setReductiontime(String.valueOf(jinshiparkCoupon.getReductiontime()));
-        LincensePlate lincensePlate = new LincensePlate();
-        lincensePlate.setLpLincensePlateIdCar(plate);
         jinshiparkCouponOrder.setIntime(lincensePlates.get(0).getLpInboundTime());
-        jinshiparkCouponOrder.setOrderid(TestUtil.getOrderIdByUUId(plate, Integer.valueOf(parkid)));
+        jinshiparkCouponOrder.setOrderid(lincensePlates.get(0).getLpOrderId());
         jinshiparkCouponOrder.setAreaid(areaid);
         jinshiparkCouponOrder.setAreaname(jinshiparkCoupon.getAreaname());
         int result = jinshiparkCouponOrderMapper.insertSelective(jinshiparkCouponOrder);
@@ -271,10 +269,8 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         jinshiparkCouponOrder.setType(String.valueOf(jinshiparkCoupon.getType()));
         jinshiparkCouponOrder.setReductionmoney(String.valueOf(jinshiparkCoupon.getReductionmoney()));
         jinshiparkCouponOrder.setReductiontime(String.valueOf(jinshiparkCoupon.getReductiontime()));
-        LincensePlate lincensePlate = new LincensePlate();
-        lincensePlate.setLpLincensePlateIdCar(plate);
         jinshiparkCouponOrder.setIntime(lincensePlates.get(0).getLpInboundTime());
-        jinshiparkCouponOrder.setOrderid(TestUtil.getOrderIdByUUId(plate, Integer.valueOf(parkid)));
+        jinshiparkCouponOrder.setOrderid(lincensePlates.get(0).getLpOrderId());
         jinshiparkCouponOrder.setAreaid(areaid);
         jinshiparkCouponOrder.setAreaname(jinshiparkCoupon.getAreaname());
         int result = jinshiparkCouponOrderMapper.insertSelective(jinshiparkCouponOrder);
