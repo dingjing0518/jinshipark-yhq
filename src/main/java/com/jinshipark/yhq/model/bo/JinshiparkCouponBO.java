@@ -26,6 +26,8 @@ public class JinshiparkCouponBO {
 
     private String enddata;
 
+    private Integer type;
+
     private Integer coupontype;
 
     private String starttime;
@@ -77,9 +79,11 @@ public class JinshiparkCouponBO {
     public String getStartdata() {
         return startdata;
     }
+
     public Date getDateForStartdata() throws ParseException {
         return format.parse(this.startdata);
     }
+
     public void setStartdata(String startdata) {
         this.startdata = startdata;
     }
@@ -174,5 +178,13 @@ public class JinshiparkCouponBO {
 
     public void setAreaname(String areaname) {
         this.areaname = areaname;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

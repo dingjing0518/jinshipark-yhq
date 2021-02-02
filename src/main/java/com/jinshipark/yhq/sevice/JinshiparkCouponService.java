@@ -12,4 +12,6 @@ public interface JinshiparkCouponService {
     JinshiparkJSONResult save(JinshiparkCouponBO jinshiparkCouponBO) throws ParseException;
 
     JinshiparkJSONResult selectParkCouponById(JinshiparkCouponBO jinshiparkCouponBO);
+
+    JinshiparkJSONResult updateCoupon(JinshiparkCouponBO jinshiparkCouponBO);
 }

@@ -14,7 +14,7 @@ import java.text.ParseException;
  * 优惠券生成管理控制页
  */
 @Controller
-@RequestMapping("/shopCouponManager")
+@RequestMapping("/couponManager")
 public class JinshiparkCouponController {
 
     @Autowired
@@ -39,16 +39,27 @@ public class JinshiparkCouponController {
     public JinshiparkJSONResult list(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
         return jinshiparkCouponService.list(jinshiparkCouponBO);
     }
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public JinshiparkJSONResult save(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) throws ParseException {
         return jinshiparkCouponService.save(jinshiparkCouponBO);
     }
 
-    @RequestMapping(value = "/selectParkCouponById",method = RequestMethod.POST)
+    @RequestMapping(value = "/selectParkCouponById", method = RequestMethod.POST)
     @ResponseBody
     @CrossOrigin
     public JinshiparkJSONResult selectParkCouponById(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
         return JinshiparkJSONResult.ok(jinshiparkCouponService.selectParkCouponById(jinshiparkCouponBO));
+    }
+
+    /**
+     * 续费接口
+     */
+    @RequestMapping(value = "/updateCoupon", method = RequestMethod.POST)
+    @ResponseBody
+    @CrossOrigin
+    public JinshiparkJSONResult updateCoupon(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
+        return jinshiparkCouponService.updateCoupon(jinshiparkCouponBO);
     }
 }
