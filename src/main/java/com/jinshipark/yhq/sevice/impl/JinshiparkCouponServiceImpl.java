@@ -9,6 +9,7 @@ import com.jinshipark.yhq.model.JinshiparkShopcouponExample;
 import com.jinshipark.yhq.model.bo.JinshiparkCouponBO;
 import com.jinshipark.yhq.sevice.JinshiparkCouponService;
 import com.jinshipark.yhq.utils.JinshiparkJSONResult;
+import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,7 +136,7 @@ public class JinshiparkCouponServiceImpl implements JinshiparkCouponService {
             jinshiparkShopcoupon.setRemaincount(jinshiparkShopcoupon.getRemaincount() - toAddReductiontime);
             jinshiparkShopcouponMapper.updateByPrimaryKey(jinshiparkShopcoupon);
         } else if (jinshiparkCouponBO.getType() == 2) {
-            //1-减免金额
+            //2-减免金额
             Integer toAddReductionmoney = jinshiparkCouponBO.getCount() * jinshiparkCoupon.getReductionmoney();
             if (toAddReductionmoney > jinshiparkShopcoupon.getRemaincount()) {
                 return JinshiparkJSONResult.errorMsg("您所剩的减免金额券没那么多");
@@ -147,6 +148,78 @@ public class JinshiparkCouponServiceImpl implements JinshiparkCouponService {
             jinshiparkShopcouponMapper.updateByPrimaryKey(jinshiparkShopcoupon);
         }
         return JinshiparkJSONResult.ok("优惠券续费成功");
+    }
+
+    @Override
+    public JinshiparkJSONResult returnBack(JinshiparkCouponBO jinshiparkCouponBO) {
+        if (jinshiparkCouponBO.getId() == null) {
+            return JinshiparkJSONResult.errorMsg("生成的优惠券不存在");
+        }
+        JinshiparkCoupon jinshiparkCoupon = jinshiparkCouponMapper.selectByPrimaryKey(jinshiparkCouponBO.getId());
+        if (jinshiparkCoupon == null) {
+            return JinshiparkJSONResult.errorMsg("生成的优惠券不存在");
+        }
+        Integer type = jinshiparkCoupon.getType();//优惠券类型
+        Integer reductionmoney = jinshiparkCoupon.getReductionmoney();//减免金额
+        Integer reductiontime = jinshiparkCoupon.getReductiontime();//减免时长
+        Integer remaincount = Integer.valueOf(jinshiparkCoupon.getRemaincount());//剩余数量
+        Integer couponId = Integer.valueOf(jinshiparkCoupon.getCouponid());//优惠券Id
+        JinshiparkShopcoupon jinshiparkShopcoupon = jinshiparkShopcouponMapper.selectByPrimaryKey(couponId);
+        Integer couponCount = jinshiparkShopcoupon.getRemaincount();//券的剩余数量
+        if (type == 3 || type == 0) {
+            //0-全免劵 3-当天有效全免券
+            jinshiparkShopcoupon.setRemaincount(couponCount + remaincount);
+        }
+        if (type == 1) {
+            //1-减免时长
+            Integer toAddReductiontime = reductiontime * remaincount;
+            jinshiparkShopcoupon.setRemaincount(toAddReductiontime + jinshiparkShopcoupon.getRemaincount());
+        }
+        if (type == 2) {
+            //2-减免金额
+            Integer toAddReductionmoney = reductionmoney * remaincount;
+            jinshiparkShopcoupon.setRemaincount(toAddReductionmoney + jinshiparkShopcoupon.getRemaincount());
+        }
+        jinshiparkShopcouponMapper.updateByPrimaryKeySelective(jinshiparkShopcoupon);
+        jinshiparkCoupon.setRemaincount("0");
+//        jinshiparkCoupon.setCount(0);
+        jinshiparkCouponMapper.updateByPrimaryKeySelective(jinshiparkCoupon);
+        return JinshiparkJSONResult.ok("返还成功");
+    }
+
+    @Override
+    public JinshiparkJSONResult deleteByPrimaryKey(JinshiparkCouponBO jinshiparkCouponBO) {
+        if (jinshiparkCouponBO.getId() == null) {
+            return JinshiparkJSONResult.errorMsg("生成的优惠券不存在");
+        }
+        JinshiparkCoupon jinshiparkCoupon = jinshiparkCouponMapper.selectByPrimaryKey(jinshiparkCouponBO.getId());
+        if (jinshiparkCoupon == null) {
+            return JinshiparkJSONResult.errorMsg("生成的优惠券不存在");
+        }
+        Integer type = jinshiparkCoupon.getType();//优惠券类型
+        Integer reductionmoney = jinshiparkCoupon.getReductionmoney();//减免金额
+        Integer reductiontime = jinshiparkCoupon.getReductiontime();//减免时长
+        Integer remaincount = Integer.valueOf(jinshiparkCoupon.getRemaincount());//剩余数量
+        Integer couponId = Integer.valueOf(jinshiparkCoupon.getCouponid());//优惠券Id
+        JinshiparkShopcoupon jinshiparkShopcoupon = jinshiparkShopcouponMapper.selectByPrimaryKey(couponId);
+        Integer couponCount = jinshiparkShopcoupon.getRemaincount();//券的剩余数量
+        if (type == 3 || type == 0) {
+            //0-全免劵 3-当天有效全免券
+            jinshiparkShopcoupon.setRemaincount(couponCount + remaincount);
+        }
+        if (type == 1) {
+            //1-减免时长
+            Integer toAddReductiontime = reductiontime * remaincount;
+            jinshiparkShopcoupon.setRemaincount(toAddReductiontime + jinshiparkShopcoupon.getRemaincount());
+        }
+        if (type == 2) {
+            //2-减免金额
+            Integer toAddReductionmoney = reductionmoney * remaincount;
+            jinshiparkShopcoupon.setRemaincount(toAddReductionmoney + jinshiparkShopcoupon.getRemaincount());
+        }
+        jinshiparkShopcouponMapper.updateByPrimaryKeySelective(jinshiparkShopcoupon);
+        jinshiparkCouponMapper.deleteByPrimaryKey(jinshiparkCouponBO.getId());
+        return JinshiparkJSONResult.ok("删除成功");
     }
 
     private void updateCouponCount(JinshiparkCouponBO jinshiparkCouponBO, JinshiparkCoupon jinshiparkCoupon) {

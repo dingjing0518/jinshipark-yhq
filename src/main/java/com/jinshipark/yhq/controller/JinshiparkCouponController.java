@@ -62,4 +62,24 @@ public class JinshiparkCouponController {
     public JinshiparkJSONResult updateCoupon(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
         return jinshiparkCouponService.updateCoupon(jinshiparkCouponBO);
     }
+
+    /**
+     * 返还接口
+     */
+    @RequestMapping(value = "/returnBack", method = RequestMethod.POST)
+    @ResponseBody
+    @CrossOrigin
+    public JinshiparkJSONResult returnBack(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
+        return jinshiparkCouponService.returnBack(jinshiparkCouponBO);
+    }
+
+    /**
+     * 删除接口
+     */
+    @RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.POST)
+    @ResponseBody
+    @CrossOrigin
+    public JinshiparkJSONResult deleteByPrimaryKey(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
+        return jinshiparkCouponService.deleteByPrimaryKey(jinshiparkCouponBO);
+    }
 }

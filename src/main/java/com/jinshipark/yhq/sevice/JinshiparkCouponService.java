@@ -14,4 +14,8 @@ public interface JinshiparkCouponService {
     JinshiparkJSONResult selectParkCouponById(JinshiparkCouponBO jinshiparkCouponBO);
 
     JinshiparkJSONResult updateCoupon(JinshiparkCouponBO jinshiparkCouponBO);
+
+    JinshiparkJSONResult returnBack(JinshiparkCouponBO jinshiparkCouponBO);
+
+    JinshiparkJSONResult deleteByPrimaryKey(JinshiparkCouponBO jinshiparkCouponBO);
 }
