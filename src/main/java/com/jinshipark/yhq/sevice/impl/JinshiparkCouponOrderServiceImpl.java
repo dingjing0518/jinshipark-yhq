@@ -117,7 +117,7 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             return jsonObject.toJSONString();
         }
         if (!lincensePlates.get(0).getLpParkingName().equals(parkid)
-                || !lincensePlates.get(0).getLpCarType().equals(jinshiparkCoupon.getAreaname())) {
+                || (!jinshiparkCoupon.getAreaname().equals("全区域") && !lincensePlates.get(0).getLpCarType().equals(jinshiparkCoupon.getAreaname()))) {
             jsonObject.put("msg", "本优惠券不在该停车区域使用范围");
             return jsonObject.toJSONString();
         }
