@@ -6,13 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SearchVO {
-    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private Integer pageNum;
     private Integer pageSize;
     private String shopId;
     private String keyWord;
     private String startTime;
     private String endTime;
+    private String parkId;
 
     public Integer getPageNum() {
         return pageNum;
@@ -68,5 +69,13 @@ public class SearchVO {
 
     public Date getDateForEndTime() throws ParseException {
         return format.parse(this.endTime);
+    }
+
+    public String getParkId() {
+        return parkId;
+    }
+
+    public void setParkId(String parkId) {
+        this.parkId = parkId;
     }
 }

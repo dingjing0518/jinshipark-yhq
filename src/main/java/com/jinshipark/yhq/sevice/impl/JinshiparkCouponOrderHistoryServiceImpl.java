@@ -32,8 +32,9 @@ public class JinshiparkCouponOrderHistoryServiceImpl implements JinshiparkCoupon
         JinshiparkCouponOrderHistoryExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("CreateTime desc");
         criteria.andShopidEqualTo(searchVO.getShopId());
-        criteria.andCreatetimeGreaterThanOrEqualTo(searchVO.getDateForStartTime());
-        criteria.andCreatetimeLessThanOrEqualTo(searchVO.getDateForEndTime());
+        criteria.andParkidEqualTo(searchVO.getParkId());
+        criteria.andOuttimeGreaterThanOrEqualTo(searchVO.getDateForStartTime());
+        criteria.andOuttimeLessThanOrEqualTo(searchVO.getDateForEndTime());
         criteria.andPlateLike("%" + searchVO.getKeyWord() + "%");
         // 分页
         PageHelper.startPage(searchVO.getPageNum(), searchVO.getPageSize());

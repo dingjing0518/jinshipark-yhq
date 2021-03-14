@@ -47,6 +47,7 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         JinshiparkCouponOrderExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("CreateTime desc");
         criteria.andShopidEqualTo(searchVO.getShopId());
+        criteria.andParkidEqualTo(searchVO.getParkId());
         criteria.andCreatetimeGreaterThanOrEqualTo(searchVO.getDateForStartTime());
         criteria.andCreatetimeLessThanOrEqualTo(searchVO.getDateForEndTime());
         criteria.andPlateLike("%" + searchVO.getKeyWord() + "%");
@@ -245,21 +246,16 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         }
 
         JinshiparkCouponOrder jinshiparkCouponOrder = new JinshiparkCouponOrder();
-        if (type == 0 || type == 3) {
-            jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-            jinshiparkCouponOrder.setState("0");
+
+        int updateCount = jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
+        if (!(updateCount > 0)) {
+            jsonObject.put("msg", "商家优惠券数量不足");
+            return jsonObject.toJSONString();
         }
-        if (type == 1) {
-            jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-            jinshiparkCouponOrder.setState("0");
-        }
-        if (type == 2) {
-            jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-            jinshiparkCouponOrder.setState("0");
-        }
+        jinshiparkCouponOrder.setState("0");
+
         jinshiparkCouponOrder.setCouponid(jinshiparkCoupon.getCouponid());
         jinshiparkCouponOrder.setPlate(plate);
-
         jinshiparkCouponOrder.setCreatetime(new Date());
         jinshiparkCouponOrder.setAgentid(jinshiparkCoupon.getAgentid());
         jinshiparkCouponOrder.setParkid(parkid);
