@@ -1,5 +1,6 @@
 package com.jinshipark.yhq.controller;
 
+import com.jinshipark.yhq.model.bo.JinshiparkShopcouponBO;
 import com.jinshipark.yhq.sevice.JinshiparkShopcouponService;
 import com.jinshipark.yhq.utils.JinshiparkJSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,17 @@ public class JinshiparkShopcouponController {
 
         return jinshiParkCouponManagerService.list(shopId, parkingId);
     }
+
+    /**
+     *
+     * 根据Id获取优惠券
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/getJinshiparkShopcouponById", method = RequestMethod.POST)
+    @ResponseBody
+    public JinshiparkJSONResult getJinshiparkShopcouponById(@RequestBody JinshiparkShopcouponBO jinshiparkShopcouponBO) {
+
+        return jinshiParkCouponManagerService.getJinshiparkShopcouponById(jinshiparkShopcouponBO);
+    }
+
 }

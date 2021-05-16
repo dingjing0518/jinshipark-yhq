@@ -11,6 +11,8 @@ public class JinshiparkShopUserBO {
 
     private String password;
 
+    private String parkName;
+
     public Integer getId() {
         return id;
     }
@@ -35,12 +37,21 @@ public class JinshiparkShopUserBO {
         this.password = password;
     }
 
+    public String getParkName() {
+        return parkName;
+    }
+
+    public void setParkName(String parkName) {
+        this.parkName = parkName;
+    }
+
     @Override
     public String toString() {
         return "JinshiparkShopUserBO{" +
                 "id=" + id +
                 ", loginName='" + loginName + '\'' +
                 ", password='" + password + '\'' +
+                ", parkName='" + parkName + '\'' +
                 '}';
     }
 }

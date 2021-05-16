@@ -3,6 +3,7 @@ package com.jinshipark.yhq.sevice.impl;
 import com.jinshipark.yhq.mapper.JinshiparkShopUserMapper;
 import com.jinshipark.yhq.mapper.JinshiparkShopcouponMapper;
 import com.jinshipark.yhq.model.*;
+import com.jinshipark.yhq.model.bo.JinshiparkShopcouponBO;
 import com.jinshipark.yhq.model.vo.JinshiparkShopcouponVO;
 import com.jinshipark.yhq.sevice.JinshiparkShopcouponService;
 import com.jinshipark.yhq.utils.JinshiparkJSONResult;
@@ -64,5 +65,10 @@ public class JinshiparkShopcouponServiceImpl implements JinshiparkShopcouponServ
             list.add(jinshiparkShopcouponVo);
         }
         return JinshiparkJSONResult.ok(list);
+    }
+
+    @Override
+    public JinshiparkJSONResult getJinshiparkShopcouponById(JinshiparkShopcouponBO jinshiparkShopcouponBO) {
+        return JinshiparkJSONResult.ok(jinshiparkShopcouponMapper.selectByPrimaryKey(jinshiparkShopcouponBO.getId()));
     }
 }

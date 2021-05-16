@@ -20,16 +20,13 @@ public class JinshiparkShopUserController {
     /**
      * 登录
      *
-     * @param loginName 用户名
-     * @param password  密码
      * @return 处理结果
      */
     @CrossOrigin
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     @ResponseBody
-    public JinshiparkJSONResult login(@RequestParam("loginName") String loginName,
-                                      @RequestParam("password") String password) {
-        return jinshiparkShopUserService.login(loginName, password);
+    public JinshiparkJSONResult login(@RequestBody JinshiparkShopUserBO jinshiparkShopUserBO) {
+        return jinshiparkShopUserService.login(jinshiparkShopUserBO);
     }
 
     /**
