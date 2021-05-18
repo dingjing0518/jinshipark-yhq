@@ -82,4 +82,13 @@ public class JinshiparkCouponController {
     public JinshiparkJSONResult deleteByPrimaryKey(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
         return jinshiparkCouponService.deleteByPrimaryKey(jinshiparkCouponBO);
     }
+    /**
+     * 延期接口
+     */
+    @RequestMapping(value = "/delay", method = RequestMethod.POST)
+    @ResponseBody
+    @CrossOrigin
+    public JinshiparkJSONResult delay(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
+        return jinshiparkCouponService.delay(jinshiparkCouponBO);
+    }
 }

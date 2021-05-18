@@ -44,6 +44,8 @@ public class JinshiparkCouponBO {
 
     private String areaname;
 
+    private Date delayEndDate;
+
     public String getShopid() {
         return shopid;
     }
@@ -186,5 +188,13 @@ public class JinshiparkCouponBO {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Date getDelayEndDate() {
+        return delayEndDate;
+    }
+
+    public void setDelayEndDate(Date delayEndDate) {
+        this.delayEndDate = delayEndDate;
     }
 }

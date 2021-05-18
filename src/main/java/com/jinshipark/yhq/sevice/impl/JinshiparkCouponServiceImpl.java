@@ -222,6 +222,21 @@ public class JinshiparkCouponServiceImpl implements JinshiparkCouponService {
         return JinshiparkJSONResult.ok("删除成功");
     }
 
+    @Override
+    public JinshiparkJSONResult delay(JinshiparkCouponBO jinshiparkCouponBO) {
+        JinshiparkShopcoupon shopcoupon = jinshiparkShopcouponMapper.selectByPrimaryKey(Integer.valueOf(jinshiparkCouponBO.getCouponId()));
+        if (shopcoupon.getEndtime().before(jinshiparkCouponBO.getDelayEndDate())) {
+            return JinshiparkJSONResult.errorMsg("延期结束日期不能大于优惠券结束时间");
+        }
+        JinshiparkCouponExample example = new JinshiparkCouponExample();
+        JinshiparkCouponExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(jinshiparkCouponBO.getId());
+        JinshiparkCoupon jinshiparkCoupon = new JinshiparkCoupon();
+        jinshiparkCoupon.setEnddate(jinshiparkCouponBO.getDelayEndDate());
+        jinshiparkCouponMapper.updateByExampleSelective(jinshiparkCoupon,example);
+        return JinshiparkJSONResult.ok("延期成功");
+    }
+
     private void updateCouponCount(JinshiparkCouponBO jinshiparkCouponBO, JinshiparkCoupon jinshiparkCoupon) {
         String newRemaincount = String.valueOf(Integer.parseInt(jinshiparkCoupon.getRemaincount()) + jinshiparkCouponBO.getCount());
         Integer newCount = jinshiparkCoupon.getCount() + jinshiparkCouponBO.getCount();

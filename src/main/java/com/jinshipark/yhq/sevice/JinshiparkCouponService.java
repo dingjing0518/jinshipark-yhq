@@ -18,4 +18,6 @@ public interface JinshiparkCouponService {
     JinshiparkJSONResult returnBack(JinshiparkCouponBO jinshiparkCouponBO);
 
     JinshiparkJSONResult deleteByPrimaryKey(JinshiparkCouponBO jinshiparkCouponBO);
+
+    JinshiparkJSONResult delay(JinshiparkCouponBO jinshiparkCouponBO);
 }
