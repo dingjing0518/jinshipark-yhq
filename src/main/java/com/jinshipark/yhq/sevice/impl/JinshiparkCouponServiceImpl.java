@@ -1,15 +1,15 @@
 package com.jinshipark.yhq.sevice.impl;
 
 import com.jinshipark.yhq.mapper.JinshiparkCouponMapper;
+import com.jinshipark.yhq.mapper.JinshiparkCouponOrderHistoryMapper;
+import com.jinshipark.yhq.mapper.JinshiparkCouponOrderMapper;
 import com.jinshipark.yhq.mapper.JinshiparkShopcouponMapper;
-import com.jinshipark.yhq.model.JinshiparkCoupon;
-import com.jinshipark.yhq.model.JinshiparkCouponExample;
-import com.jinshipark.yhq.model.JinshiparkShopcoupon;
-import com.jinshipark.yhq.model.JinshiparkShopcouponExample;
+import com.jinshipark.yhq.model.*;
 import com.jinshipark.yhq.model.bo.JinshiparkCouponBO;
 import com.jinshipark.yhq.sevice.JinshiparkCouponService;
 import com.jinshipark.yhq.utils.JinshiparkJSONResult;
 import io.swagger.models.auth.In;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,12 @@ public class JinshiparkCouponServiceImpl implements JinshiparkCouponService {
 
     @Autowired
     private JinshiparkShopcouponMapper jinshiparkShopcouponMapper;
+
+    @Autowired
+    private JinshiparkCouponOrderMapper jinshiparkCouponOrderMapper;
+
+    @Autowired
+    private JinshiparkCouponOrderHistoryMapper jinshiparkCouponOrderHistoryMapper;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -233,8 +239,31 @@ public class JinshiparkCouponServiceImpl implements JinshiparkCouponService {
         criteria.andIdEqualTo(jinshiparkCouponBO.getId());
         JinshiparkCoupon jinshiparkCoupon = new JinshiparkCoupon();
         jinshiparkCoupon.setEnddate(jinshiparkCouponBO.getDelayEndDate());
-        jinshiparkCouponMapper.updateByExampleSelective(jinshiparkCoupon,example);
+        jinshiparkCouponMapper.updateByExampleSelective(jinshiparkCoupon, example);
         return JinshiparkJSONResult.ok("延期成功");
+    }
+
+    @Override
+    public String limitCouponNum(String orderId, String num) {
+        if (StringUtils.isBlank(orderId) || StringUtils.isBlank(num)) {
+            return "fail";
+        }
+        JinshiparkCouponOrderExample orderExample = new JinshiparkCouponOrderExample();
+        JinshiparkCouponOrderExample.Criteria orderCriteria = orderExample.createCriteria();
+        orderCriteria.andOrderidEqualTo(orderId);
+        long orderCount = jinshiparkCouponOrderMapper.countByExample(orderExample);
+
+        JinshiparkCouponOrderHistoryExample historyExample = new JinshiparkCouponOrderHistoryExample();
+        JinshiparkCouponOrderHistoryExample.Criteria historyCriteria = historyExample.createCriteria();
+        historyCriteria.andOrderidEqualTo(orderId);
+        long historyCount = jinshiparkCouponOrderHistoryMapper.countByExample(historyExample);
+
+
+        if ((orderCount + historyCount) > Long.parseLong(num)) {
+            return "fail";
+        }else {
+            return "ok";
+        }
     }
 
     private void updateCouponCount(JinshiparkCouponBO jinshiparkCouponBO, JinshiparkCoupon jinshiparkCoupon) {

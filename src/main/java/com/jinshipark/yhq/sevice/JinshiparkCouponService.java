@@ -20,4 +20,6 @@ public interface JinshiparkCouponService {
     JinshiparkJSONResult deleteByPrimaryKey(JinshiparkCouponBO jinshiparkCouponBO);
 
     JinshiparkJSONResult delay(JinshiparkCouponBO jinshiparkCouponBO);
+
+    String limitCouponNum(String orderId, String num);
 }

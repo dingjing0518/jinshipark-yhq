@@ -82,6 +82,7 @@ public class JinshiparkCouponController {
     public JinshiparkJSONResult deleteByPrimaryKey(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
         return jinshiparkCouponService.deleteByPrimaryKey(jinshiparkCouponBO);
     }
+
     /**
      * 延期接口
      */
@@ -90,5 +91,15 @@ public class JinshiparkCouponController {
     @CrossOrigin
     public JinshiparkJSONResult delay(@RequestBody JinshiparkCouponBO jinshiparkCouponBO) {
         return jinshiparkCouponService.delay(jinshiparkCouponBO);
+    }
+
+    /**
+     * 限制券数量接口
+     */
+    @RequestMapping(value = "/limitCouponNum", method = RequestMethod.GET)
+    @ResponseBody
+    @CrossOrigin
+    public String limitCouponNum(String orderId, String num) {
+        return jinshiparkCouponService.limitCouponNum(orderId, num);
     }
 }
