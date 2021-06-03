@@ -40,8 +40,10 @@ public class JinshiparkCouponOrderController {
     @CrossOrigin
     public String insertCouponOrder(@RequestParam("id") Integer id,
                                     @RequestParam("plate") String plate,
-                                    @RequestParam("type") Integer type) throws Exception {
-        return jinshiparkCouponOrderService.insertCouponOrder(id, plate, type);
+                                    @RequestParam("type") Integer type,
+                                    @RequestParam("orderId") String orderId,
+                                    @RequestParam("num") Integer num) throws Exception {
+        return jinshiparkCouponOrderService.insertCouponOrder(id, plate, type, orderId, num);
     }
 
     /**
@@ -57,8 +59,8 @@ public class JinshiparkCouponOrderController {
     @ResponseBody
     @CrossOrigin
     public String insertCouponOrderToD(@RequestParam("id") Integer id,
-                                    @RequestParam("plate") String plate,
-                                    @RequestParam("type") Integer type) throws Exception {
-        return jinshiparkCouponOrderService.insertCouponOrder(id, plate, type);
+                                       @RequestParam("plate") String plate,
+                                       @RequestParam("type") Integer type) throws Exception {
+        return jinshiparkCouponOrderService.insertCouponOrderToD(id, plate, type);
     }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jinshipark.yhq.mapper.JinshiparkCouponMapper;
+import com.jinshipark.yhq.mapper.JinshiparkCouponOrderHistoryMapper;
 import com.jinshipark.yhq.mapper.JinshiparkCouponOrderMapper;
 import com.jinshipark.yhq.mapper2.JinshiAreaMapper;
 import com.jinshipark.yhq.mapper2.LincensePlateMapper;
@@ -14,6 +15,7 @@ import com.jinshipark.yhq.sevice.JinshiparkCouponOrderService;
 import com.jinshipark.yhq.utils.DateUtils;
 import com.jinshipark.yhq.utils.PagedGridResult;
 import com.jinshipark.yhq.utils.TestUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,9 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
 
     @Autowired
     private LincensePlateMapper lincensePlateMapper;
+
+    @Autowired
+    private JinshiparkCouponOrderHistoryMapper jinshiparkCouponOrderHistoryMapper;
 
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -69,8 +74,24 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
     }
 
     @Override
-    public String insertCouponOrder(Integer id, String plate, Integer type) throws Exception {
+    public String insertCouponOrder(Integer id, String plate, Integer type, String orderId, Integer num) throws Exception {
         JSONObject jsonObject = new JSONObject();
+        if (StringUtils.isNotBlank(orderId) && num != null && num > 0) {
+            JinshiparkCouponOrderExample orderExample = new JinshiparkCouponOrderExample();
+            JinshiparkCouponOrderExample.Criteria orderCriteria = orderExample.createCriteria();
+            orderCriteria.andOrderidEqualTo(orderId);
+            long orderCount = jinshiparkCouponOrderMapper.countByExample(orderExample);
+
+            JinshiparkCouponOrderHistoryExample historyExample = new JinshiparkCouponOrderHistoryExample();
+            JinshiparkCouponOrderHistoryExample.Criteria historyCriteria = historyExample.createCriteria();
+            historyCriteria.andOrderidEqualTo(orderId);
+            long historyCount = jinshiparkCouponOrderHistoryMapper.countByExample(historyExample);
+
+            if ((orderCount + historyCount) >= num) {
+                jsonObject.put("msg", "超过二维码扫码次数限制");
+                return jsonObject.toJSONString();
+            }
+        }
         if (type == null) {
             jsonObject.put("msg", "扫码失败，请联系工作人员更换二维码");
             return jsonObject.toJSONString();
@@ -108,8 +129,6 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
         LincensePlateExample lincensePlateExample = new LincensePlateExample();
         LincensePlateExample.Criteria criteriasLp = lincensePlateExample.createCriteria();
         criteriasLp.andLpLincensePlateIdCarEqualTo(plate);
-//        criteriasLp.andLpParkingNameEqualTo(parkid);
-//        criteriasLp.andLpCarTypeEqualTo(jinshiArea.getAreaName());
 
         List<LincensePlate> lincensePlates = lincensePlateMapper.selectByExample(lincensePlateExample);
 
@@ -117,12 +136,13 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             jsonObject.put("msg", "该车辆无入场信息");
             return jsonObject.toJSONString();
         }
-        if (!lincensePlates.get(0).getLpParkingName().equals(parkid)
-                || (!jinshiparkCoupon.getAreaname().equals("全区域") && !lincensePlates.get(0).getLpCarType().equals(jinshiparkCoupon.getAreaname()))) {
+        LincensePlate lincensePlate = lincensePlates.get(0);
+        if (!lincensePlate.getLpParkingName().equals(parkid)
+                || (!jinshiparkCoupon.getAreaname().equals("全区域") && !lincensePlate.getLpCarType().equals(jinshiparkCoupon.getAreaname()))) {
             jsonObject.put("msg", "本优惠券不在该停车区域使用范围");
             return jsonObject.toJSONString();
         }
-        if (lincensePlates.get(0).getLpLgType() == 1) {
+        if (lincensePlate.getLpLgType() == 1) {
             jsonObject.put("msg", "此车辆为月租车，无需使用优惠券");
             return jsonObject.toJSONString();
         }
@@ -136,36 +156,42 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             jsonObject.put("msg", "此车牌已增加,请勿重复提交");
             return jsonObject.toJSONString();
         }
-
+        if (type == 3) {
+            DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String datestr = formatDate.format(date);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(datestr);
+            stringBuilder.append(" ");
+            stringBuilder.append("00:00:00");
+            if (lincensePlate.getLpInboundTime().before(format.parse(stringBuilder.toString()))) {
+                jsonObject.put("msg", "请在进场当天使用优惠券并出场");
+                return jsonObject.toJSONString();
+            }
+        }
         JinshiparkCouponOrder jinshiparkCouponOrder = new JinshiparkCouponOrder();
-        if (type == 0 || type == 3) {
-            jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-            jinshiparkCouponOrder.setState("0");
-        }
-        if (type == 1) {
-            jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-            jinshiparkCouponOrder.setState("0");
-        }
-        if (type == 2) {
-            jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-            jinshiparkCouponOrder.setState("0");
-        }
+        jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
+        jinshiparkCouponOrder.setState("0");
         jinshiparkCouponOrder.setCouponid(jinshiparkCoupon.getCouponid());
         jinshiparkCouponOrder.setPlate(plate);
-
         jinshiparkCouponOrder.setCreatetime(new Date());
         jinshiparkCouponOrder.setAgentid(jinshiparkCoupon.getAgentid());
         jinshiparkCouponOrder.setParkid(parkid);
-        jinshiparkCouponOrder.setAreaid(jinshiparkCoupon.getAreaid());
+        jinshiparkCouponOrder.setAreaid(areaid);
         jinshiparkCouponOrder.setJcoCouponGenerateId(id);
         jinshiparkCouponOrder.setShopid(jinshiparkCoupon.getShopid());
         jinshiparkCouponOrder.setType(String.valueOf(jinshiparkCoupon.getType()));
         jinshiparkCouponOrder.setReductionmoney(String.valueOf(jinshiparkCoupon.getReductionmoney()));
         jinshiparkCouponOrder.setReductiontime(String.valueOf(jinshiparkCoupon.getReductiontime()));
-        jinshiparkCouponOrder.setIntime(lincensePlates.get(0).getLpInboundTime());
-        jinshiparkCouponOrder.setOrderid(lincensePlates.get(0).getLpOrderId());
-        jinshiparkCouponOrder.setAreaid(areaid);
+        jinshiparkCouponOrder.setIntime(lincensePlate.getLpInboundTime());
         jinshiparkCouponOrder.setAreaname(jinshiparkCoupon.getAreaname());
+
+        if (StringUtils.isNotBlank(orderId)) {
+            jinshiparkCouponOrder.setOrderid(orderId);
+        } else {
+            jinshiparkCouponOrder.setOrderid(lincensePlate.getLpOrderId());
+        }
+
         int result = jinshiparkCouponOrderMapper.insertSelective(jinshiparkCouponOrder);
         if (result > 0) {
             jsonObject.put("msg", "使用优惠券成功");
@@ -212,12 +238,9 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             return jsonObject.toJSONString();
         }
 
-
         LincensePlateExample lincensePlateExample = new LincensePlateExample();
         LincensePlateExample.Criteria criteriasLp = lincensePlateExample.createCriteria();
         criteriasLp.andLpLincensePlateIdCarEqualTo(plate);
-//        criteriasLp.andLpParkingNameEqualTo(parkid);
-//        criteriasLp.andLpCarTypeEqualTo(jinshiArea.getAreaName());
 
         List<LincensePlate> lincensePlates = lincensePlateMapper.selectByExample(lincensePlateExample);
 
@@ -225,12 +248,13 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             jsonObject.put("msg", "该车辆无入场信息");
             return jsonObject.toJSONString();
         }
-        if (!lincensePlates.get(0).getLpParkingName().equals(parkid)
-                || !lincensePlates.get(0).getLpCarType().equals(jinshiparkCoupon.getAreaname())) {
-            jsonObject.put("msg", "本优惠券不在改停车区域使用范围");
+        LincensePlate lincensePlate = lincensePlates.get(0);
+        if (!lincensePlate.getLpParkingName().equals(parkid)
+                || (!jinshiparkCoupon.getAreaname().equals("全区域") && !lincensePlate.getLpCarType().equals(jinshiparkCoupon.getAreaname()))) {
+            jsonObject.put("msg", "本优惠券不在该停车区域使用范围");
             return jsonObject.toJSONString();
         }
-        if (lincensePlates.get(0).getLpLgType() == 1) {
+        if (lincensePlate.getLpLgType() == 1) {
             jsonObject.put("msg", "此车辆为月租车，无需使用优惠券");
             return jsonObject.toJSONString();
         }
@@ -244,31 +268,37 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
             jsonObject.put("msg", "此车牌已增加,请勿重复提交");
             return jsonObject.toJSONString();
         }
-
-        JinshiparkCouponOrder jinshiparkCouponOrder = new JinshiparkCouponOrder();
-
-        int updateCount = jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
-        if (!(updateCount > 0)) {
-            jsonObject.put("msg", "商家优惠券数量不足");
-            return jsonObject.toJSONString();
+        if (type == 3) {
+            DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String datestr = formatDate.format(date);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(datestr);
+            stringBuilder.append(" ");
+            stringBuilder.append("00:00:00");
+            if (lincensePlate.getLpInboundTime().before(format.parse(stringBuilder.toString()))) {
+                jsonObject.put("msg", "请在进场当天使用优惠券并出场");
+                return jsonObject.toJSONString();
+            }
         }
+        JinshiparkCouponOrder jinshiparkCouponOrder = new JinshiparkCouponOrder();
+        jinshiparkCouponMapper.updateCount(jinshiparkCoupon);
         jinshiparkCouponOrder.setState("0");
-
         jinshiparkCouponOrder.setCouponid(jinshiparkCoupon.getCouponid());
         jinshiparkCouponOrder.setPlate(plate);
         jinshiparkCouponOrder.setCreatetime(new Date());
         jinshiparkCouponOrder.setAgentid(jinshiparkCoupon.getAgentid());
         jinshiparkCouponOrder.setParkid(parkid);
-        jinshiparkCouponOrder.setAreaid(jinshiparkCoupon.getAreaid());
         jinshiparkCouponOrder.setJcoCouponGenerateId(id);
         jinshiparkCouponOrder.setShopid(jinshiparkCoupon.getShopid());
         jinshiparkCouponOrder.setType(String.valueOf(jinshiparkCoupon.getType()));
         jinshiparkCouponOrder.setReductionmoney(String.valueOf(jinshiparkCoupon.getReductionmoney()));
         jinshiparkCouponOrder.setReductiontime(String.valueOf(jinshiparkCoupon.getReductiontime()));
-        jinshiparkCouponOrder.setIntime(lincensePlates.get(0).getLpInboundTime());
-        jinshiparkCouponOrder.setOrderid(lincensePlates.get(0).getLpOrderId());
+        jinshiparkCouponOrder.setIntime(lincensePlate.getLpInboundTime());
+        jinshiparkCouponOrder.setOrderid(lincensePlate.getLpOrderId());
         jinshiparkCouponOrder.setAreaid(areaid);
         jinshiparkCouponOrder.setAreaname(jinshiparkCoupon.getAreaname());
+
         int result = jinshiparkCouponOrderMapper.insertSelective(jinshiparkCouponOrder);
         if (result > 0) {
             jsonObject.put("msg", "使用优惠券成功");
@@ -280,7 +310,6 @@ public class JinshiparkCouponOrderServiceImpl implements JinshiparkCouponOrderSe
 
     public JSONObject returnTodayTime(String starttime, String endtime) throws Exception {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
         JSONObject js = DateUtils.subtimeToDate(starttime, endtime);
         String startTime = (String) js.get("startTime");
         String endTime = (String) js.get("endTime");

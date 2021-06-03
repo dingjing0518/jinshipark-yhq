@@ -8,7 +8,7 @@ import java.text.ParseException;
 public interface JinshiparkCouponOrderService {
     PagedGridResult searchCouponOrder(SearchVO searchVO) throws ParseException;
 
-    String insertCouponOrder(Integer id, String plate, Integer type) throws Exception;
+    String insertCouponOrder(Integer id, String plate, Integer type, String orderId, Integer num) throws Exception;
 
     String insertCouponOrderToD(Integer id, String plate, Integer type) throws Exception;
 }
